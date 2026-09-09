@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Actols CRM{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            padding-bottom: 80px;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+        }
+        .btn-outline-light {
+            border-color: #555;
+            color: #ccc;
+        }
+        .btn-outline-light:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .navbar-bottom {
+            background-color: #1e1e1e;
+            border-top: 1px solid #333;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1030;
+            padding: 0.5rem 0;
+        }
+        .navbar-bottom .nav-link {
+            color: #aaa;
+            text-align: center;
+            padding: 0.25rem 0;
+            font-size: 0.8rem;
+        }
+        .navbar-bottom .nav-link i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+        .navbar-bottom .nav-link.active {
+            color: #fff;
+        }
+        .navbar-bottom .nav-link.active i {
+            color: #0d6efd;
+        }
+        .table-dark {
+            --bs-table-bg: #1e1e1e;
+            --bs-table-striped-bg: #2a2a2a;
+            --bs-table-hover-bg: #333;
+        }
+        .badge-project {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            margin: 0.2rem;
+            border-radius: 20px;
+            background-color: #2d6a9f;
+            color: white;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        .badge-project:hover {
+            opacity: 0.8;
+        }
+        .task-item {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .task-item .task-title {
+            flex: 1;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        .task-item .task-title.completed {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        .task-item .task-actions a {
+            margin-left: 0.5rem;
+            color: #aaa;
+        }
+        .task-item .task-actions a:hover {
+            color: #fff;
+        }
+        @media (max-width: 576px) {
+            .navbar-bottom .nav-link {
+                font-size: 0.6rem;
+            }
+            .navbar-bottom .nav-link i {
+                font-size: 1.2rem;
+            }
+        }
+        .cliente-card {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .cliente-card:hover {
+            transform: scale(1.02);
+        }
+        .cliente-card .nombre {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .cliente-card .comercial {
+            color: #aaa;
+        }
+        .proyecto-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            margin: 0.2rem;
+            font-size: 0.7rem;
+            color: #fff;
+            background-color: #2d6a9f;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="container py-3">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block menu %}
+    <nav class="navbar-bottom">
+        <div class="container">
+            <div class="row w-100">
+                <div class="col-3 text-center">
+                    <a href="{% url 'core:clientes' %}" class="nav-link {% if request.resolver_match.url_name == 'clientes' %}active{% endif %}">
+                        <i class="fas fa-users"></i><span>Clientes</span>
+                    </a>
+                </div>
+                <div class="col-3 text-center">
+                    <a href="{% url 'core:proyectos' %}" class="nav-link {% if request.resolver_match.url_name == 'proyectos' %}active{% endif %}">
+                        <i class="fas fa-project-diagram"></i><span>Proyectos</span>
+                    </a>
+                </div>
+                <div class="col-3 text-center">
+                    <a href="{% url 'core:tareas' %}" class="nav-link {% if request.resolver_match.url_name == 'tareas' %}active{% endif %}">
+                        <i class="fas fa-tasks"></i><span>Tareas</span>
+                    </a>
+                </div>
+                <div class="col-3 text-center">
+                    <a href="{% url 'core:enlaces' %}" class="nav-link {% if request.resolver_match.url_name == 'enlaces' %}active{% endif %}">
+                        <i class="fas fa-link"></i><span>Enlaces</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
