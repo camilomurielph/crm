@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Tareas - {{ categoria|title }} - Actols CRM{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>{% if categoria == 'actols' %}<i class="fas fa-building"></i> Actols
+        {% elif categoria == 'andres' %}<i class="fas fa-user"></i> Andrés
+        {% else %}<i class="fas fa-user"></i> Camilo{% endif %} - Tareas</h2>
+    <div>
+        <a href="?mostrar_completadas={% if mostrar_completadas %}false{% else %}true{% endif %}" class="btn btn-sm btn-outline-secondary">
+            {% if mostrar_completadas %}Ocultar{% else %}Mostrar{% endif %} completadas
+        </a>
+        <a href="{% url 'core:tarea_crear' %}?categoria={{ categoria }}" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus"></i> Agregar
+        </a>
+        <a href="{% url 'core:tareas' %}" class="btn btn-sm btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+    </div>
+</div>
+
+<div id="tareas-list">
+    {% for tarea in tareas %}
+        <div class="task-item" id="tarea-{{ tarea.id }}">
+            <div>
+                <input type="checkbox" {% if tarea.completada %}checked{% endif %} 
+                       hx-post="{% url 'core:tarea_toggle' tarea.id %}"
+                       hx-target="#tarea-{{ tarea.id }}"
+                       hx-swap="outerHTML">
+                <span class="task-title {% if tarea.completada %}completed{% endif %}" 
+                      onclick="window.location.href='{% url 'core:tarea_detalle' tarea.id %}'">
+                    {{ tarea.titulo }}
+                </span>
+            </div>
+            <div class="task-actions">
+                <a href="{% url 'core:tarea_editar' tarea.id %}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'core:tarea_eliminar' tarea.id %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No hay tareas en esta categoría.</p>
+    {% endfor %}
+</div>
+
+{% include 'tareas/_tarea_item.html' %}
+{% endblock %}
