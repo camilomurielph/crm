@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Nueva Tarea - Actols CRM{% endblock %}
+{% block content %}
+<h2>Nueva Tarea</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'core:tareas_categoria' categoria %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
