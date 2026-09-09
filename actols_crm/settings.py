@@ -52,7 +52,7 @@ WSGI_APPLICATION = 'actols_crm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.environ.get('DB_PATH', BASE_DIR / 'db.sqlite3'),
+        'NAME': os.environ.get('DB_PATH', BASE_DIR / '/data/db.sqlite3'),
         'OPTIONS': {'timeout': 20},
     }
 }
