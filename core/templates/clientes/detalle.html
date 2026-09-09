@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Detalle Cliente - Actols CRM{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h2>{{ cliente.razon_social }}</h2>
+    <a href="{% url 'core:clientes' %}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Volver</a>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Razón Social:</strong> {{ cliente.razon_social }}</p>
+                <p><strong>Nombre Comercial:</strong> {{ cliente.nombre_comercial }}</p>
+                <p><strong>NIF / VAT:</strong> {{ cliente.nif }}</p>
+                <p><strong>Tamaño Empresa:</strong> {{ cliente.get_tamano_empresa_display }}</p>
+                <p><strong>Industria:</strong> {{ cliente.get_industria_display }}</p>
+                <p><strong>País/Región:</strong> {{ cliente.pais }}</p>
+                <p><strong>Sitio web:</strong> <a href="{{ cliente.sitio_web }}" target="_blank">{{ cliente.sitio_web }}</a></p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>No. Contacto:</strong> {{ cliente.numero_contacto }}</p>
+                <p><strong>Email:</strong> {{ cliente.email }}</p>
+                <p><strong>Fecha 1er contacto:</strong> {{ cliente.fecha_primer_contacto|default:"-" }}</p>
+                <p><strong>Fecha firma contrato:</strong> {{ cliente.fecha_firma_contrato|default:"-" }}</p>
+                <p><strong>Estado de cliente:</strong> {{ cliente.get_estado_cliente_display }}</p>
+                <p><strong>Herramienta:</strong> {{ cliente.herramienta }}</p>
+            </div>
+        </div>
+        <hr>
+        <h5>Proyectos</h5>
+        <div>
+            {% for proyecto in cliente.proyectos.all %}
+                <a href="{% url 'core:proyecto_detalle' proyecto.pk %}" class="badge-project" style="background-color: #{{ proyecto.id|stringformat:'x'|slice:':6' }};">
+                    {{ proyecto.nombre }}
+                </a>
+            {% empty %}
+                <span class="text-muted">No hay proyectos</span>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
