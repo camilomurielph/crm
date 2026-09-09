@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Proyectos - Actols CRM{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Proyectos</h2>
+    <div>
+        <a href="?vista=tarjetas" class="btn btn-sm btn-outline-secondary {% if vista == 'tarjetas' %}active{% endif %}">
+            <i class="fas fa-th"></i>
+        </a>
+        <a href="?vista=tabla" class="btn btn-sm btn-outline-secondary {% if vista == 'tabla' %}active{% endif %}">
+            <i class="fas fa-table"></i>
+        </a>
+        <a href="{% url 'core:proyecto_crear' %}" class="btn btn-sm btn-primary ms-2">
+            <i class="fas fa-plus"></i> Agregar
+        </a>
+    </div>
+</div>
+
+{% if vista == 'tarjetas' %}
+    <div class="row">
+        {% for proyecto in proyectos %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="cliente-card" onclick="window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
+                    <div class="nombre">{{ proyecto.nombre }}</div>
+                    <div class="comercial">Cliente: {{ proyecto.cliente.razon_social }}</div>
+                    <div>
+                        <span class="badge bg-secondary">{{ proyecto.get_proceso_display }}</span>
+                        <span class="badge bg-info">{{ proyecto.get_facturacion_estado_display }}</span>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12"><p class="text-muted">No hay proyectos.</p></div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Nombre</th><th>Cliente</th>
+                    <th>Proceso</th><th>Facturación</th><th>Valor</th>
+                    <th>URL</th><th>Repo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proyecto in proyectos %}
+                <tr onclick="window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'" style="cursor:pointer;">
+                    <td>{{ proyecto.id }}</td>
+                    <td>{{ proyecto.nombre }}</td>
+                    <td>{{ proyecto.cliente.razon_social }}</td>
+                    <td>{{ proyecto.get_proceso_display }}</td>
+                    <td>{{ proyecto.get_facturacion_estado_display }}</td>
+                    <td>{{ proyecto.facturacion_valor }}</td>
+                    <td><a href="{{ proyecto.url }}" target="_blank">{{ proyecto.url|truncatechars:15 }}</a></td>
+                    <td><a href="{{ proyecto.repo_url }}" target="_blank">{{ proyecto.repo_url|truncatechars:15 }}</a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" class="text-center text-muted">No hay proyectos</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}
