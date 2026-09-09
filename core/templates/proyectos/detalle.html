@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Detalle Proyecto - Actols CRM{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h2>{{ proyecto.nombre }}</h2>
+    <a href="{% url 'core:proyectos' %}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Volver</a>
+</div>
+<div class="card">
+    <div class="card-body">
+        <p><strong>Cliente:</strong> <a href="{% url 'core:cliente_detalle' proyecto.cliente.pk %}">{{ proyecto.cliente.razon_social }}</a></p>
+        <p><strong>Descripción:</strong> {{ proyecto.descripcion|linebreaks }}</p>
+        <p><strong>URL:</strong> <a href="{{ proyecto.url }}" target="_blank">{{ proyecto.url }}</a></p>
+        <p><strong>Repo:</strong> <a href="{{ proyecto.repo_url }}" target="_blank">{{ proyecto.repo_url }}</a></p>
+        <p><strong>Proceso:</strong> {{ proyecto.get_proceso_display }}</p>
+        <p><strong>Facturación:</strong> {{ proyecto.get_facturacion_estado_display }} - Valor: {{ proyecto.facturacion_valor }}</p>
+        <p><strong>Contrato:</strong> 
+            {% if proyecto.contrato %}
+                <a href="{{ proyecto.contrato.url }}" target="_blank">Ver PDF</a>
+            {% else %}
+                No subido
+            {% endif %}
+        </p>
+        {% if not proyecto.contrato %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="contrato" accept="application/pdf">
+                <button type="submit" class="btn btn-sm btn-primary">Subir contrato</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
