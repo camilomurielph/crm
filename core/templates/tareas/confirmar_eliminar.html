@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Tarea - Actols CRM{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h3>¿Eliminar tarea?</h3>
+        <p>Estás seguro de eliminar la tarea "{{ tarea.titulo }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{% url 'core:tarea_detalle' tarea.id %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
