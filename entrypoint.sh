@@ -1,4 +1,7 @@
 #!/bin/sh
+mkdir -p /data
+chmod 777 /data
+
 python manage.py migrate
 python manage.py shell -c "
 from django.contrib.auth import get_user_model
