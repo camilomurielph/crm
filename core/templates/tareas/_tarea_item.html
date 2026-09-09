@@ -1,0 +1,16 @@
+<div class="task-item" id="tarea-{{ tarea.id }}">
+    <div>
+        <input type="checkbox" {% if tarea.completada %}checked{% endif %} 
+               hx-post="{% url 'core:tarea_toggle' tarea.id %}"
+               hx-target="#tarea-{{ tarea.id }}"
+               hx-swap="outerHTML">
+        <span class="task-title {% if tarea.completada %}completed{% endif %}" 
+              onclick="window.location.href='{% url 'core:tarea_detalle' tarea.id %}'">
+            {{ tarea.titulo }}
+        </span>
+    </div>
+    <div class="task-actions">
+        <a href="{% url 'core:tarea_editar' tarea.id %}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a>
+        <a href="{% url 'core:tarea_eliminar' tarea.id %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+    </div>
+</div>
