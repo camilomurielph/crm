@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Enlaces - Actols CRM{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Enlaces</h2>
+    <a href="{% url 'core:enlace_crear' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Agregar enlace</a>
+</div>
+<div class="list-group">
+    {% for enlace in enlaces %}
+        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-dark text-white border-secondary">
+            <a href="{{ enlace.url }}" target="_blank" class="text-white text-decoration-none">{{ enlace.nombre }}</a>
+            <div>
+                <a href="{% url 'core:enlace_editar' enlace.id %}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'core:enlace_eliminar' enlace.id %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No hay enlaces.</p>
+    {% endfor %}
+</div>
+{% endblock %}
