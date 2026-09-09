@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo Proyecto - Actols CRM{% endblock %}
+{% block content %}
+<h2>Nuevo Proyecto</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="cliente" class="form-label">Cliente</label>
+        <select name="cliente" id="cliente" class="form-select" required>
+            <option value="">Seleccione un cliente</option>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id }}" {% if request.GET.cliente == cliente.id|stringformat:"s" %}selected{% endif %}>{{ cliente.razon_social }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'core:proyectos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
