@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Enlace - Actols CRM{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h3>¿Eliminar enlace?</h3>
+        <p>Estás seguro de eliminar "{{ enlace.nombre }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{% url 'core:enlaces' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
