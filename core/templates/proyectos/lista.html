@@ -19,8 +19,8 @@
 {% if vista == 'tarjetas' %}
     <div class="row">
         {% for proyecto in proyectos %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="cliente-card" onclick="window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
+            <div class="col-12 col-md-6 col-lg-4 d-flex">
+                <div class="cliente-card w-100" onclick="window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
                     <div class="nombre">{{ proyecto.nombre|default:"Proyecto sin nombre" }}</div>
                     <div class="comercial">
                         {% if proyecto.cliente %}
@@ -29,7 +29,7 @@
                             Sin cliente
                         {% endif %}
                     </div>
-                    <div>
+                    <div class="proyectos">
                         <span class="badge bg-secondary">{{ proyecto.get_proceso_display }}</span>
                         <span class="badge bg-info">{{ proyecto.get_facturacion_estado_display }}</span>
                     </div>
