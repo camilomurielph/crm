@@ -6,7 +6,7 @@ from .forms import ClienteForm, ProyectoForm, TareaForm, EnlaceForm
 
 @login_required
 def index(request):
-    return redirect('clientes')
+    return redirect('core:clientes')
 
 # CLIENTES
 @login_required
@@ -26,7 +26,7 @@ def cliente_crear(request):
         form = ClienteForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('clientes')
+            return redirect('core:clientes')
     else:
         form = ClienteForm()
     return render(request, 'clientes/crear.html', {'form': form})
@@ -44,7 +44,7 @@ def proyecto_detalle(request, pk):
     if request.method == 'POST' and request.FILES.get('contrato'):
         proyecto.contrato = request.FILES['contrato']
         proyecto.save()
-        return redirect('proyecto_detalle', pk=proyecto.pk)
+        return redirect('core:proyecto_detalle', pk=proyecto.pk)
     return render(request, 'proyectos/detalle.html', {'proyecto': proyecto})
 
 @login_required
@@ -56,7 +56,7 @@ def proyecto_crear(request):
             proyecto = form.save(commit=False)
             proyecto.cliente_id = cliente_id
             proyecto.save()
-            return redirect('proyectos')
+            return redirect('core:proyectos')
     else:
         form = ProyectoForm()
     clientes = Cliente.objects.all()
@@ -100,7 +100,7 @@ def tarea_crear(request):
             if 'categoria' in request.GET:
                 tarea.categoria = request.GET['categoria']
             tarea.save()
-            return redirect('tareas_categoria', categoria=tarea.categoria)
+            return redirect('core:tareas_categoria', categoria=tarea.categoria)
     else:
         form = TareaForm(initial={'categoria': categoria})
     return render(request, 'tareas/crear.html', {'form': form, 'categoria': categoria})
@@ -112,7 +112,7 @@ def tarea_editar(request, pk):
         form = TareaForm(request.POST, instance=tarea)
         if form.is_valid():
             form.save()
-            return redirect('tarea_detalle', pk=tarea.pk)
+            return redirect('core:tarea_detalle', pk=tarea.pk)
     else:
         form = TareaForm(instance=tarea)
     return render(request, 'tareas/editar.html', {'form': form, 'tarea': tarea})
@@ -123,7 +123,7 @@ def tarea_eliminar(request, pk):
     if request.method == 'POST':
         categoria = tarea.categoria
         tarea.delete()
-        return redirect('tareas_categoria', categoria=categoria)
+        return redirect('core:tareas_categoria', categoria=categoria)
     return render(request, 'tareas/confirmar_eliminar.html', {'tarea': tarea})
 
 @login_required
@@ -147,7 +147,7 @@ def enlace_crear(request):
         form = EnlaceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('enlaces')
+            return redirect('core:enlaces')
     else:
         form = EnlaceForm()
     return render(request, 'enlaces/crear.html', {'form': form})
@@ -159,7 +159,7 @@ def enlace_editar(request, pk):
         form = EnlaceForm(request.POST, instance=enlace)
         if form.is_valid():
             form.save()
-            return redirect('enlaces')
+            return redirect('core:enlaces')
     else:
         form = EnlaceForm(instance=enlace)
     return render(request, 'enlaces/editar.html', {'form': form, 'enlace': enlace})
@@ -169,5 +169,5 @@ def enlace_eliminar(request, pk):
     enlace = get_object_or_404(Enlace, pk=pk)
     if request.method == 'POST':
         enlace.delete()
-        return redirect('enlaces')
+        return redirect('core:enlaces')
     return render(request, 'enlaces/confirmar_eliminar.html', {'enlace': enlace})
