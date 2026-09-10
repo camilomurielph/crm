@@ -4,10 +4,10 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Proyectos</h2>
     <div>
-        <a href="?vista=tarjetas" class="btn btn-sm btn-outline-secondary {% if vista == 'tarjetas' %}active{% endif %}">
+        <a href="?vista=tarjetas" class="btn btn-sm btn-outline-light {% if vista == 'tarjetas' %}active{% endif %}">
             <i class="fas fa-th"></i>
         </a>
-        <a href="?vista=tabla" class="btn btn-sm btn-outline-secondary {% if vista == 'tabla' %}active{% endif %}">
+        <a href="?vista=tabla" class="btn btn-sm btn-outline-light {% if vista == 'tabla' %}active{% endif %}">
             <i class="fas fa-table"></i>
         </a>
         <a href="{% url 'core:proyecto_crear' %}" class="btn btn-sm btn-primary ms-2">
@@ -21,8 +21,14 @@
         {% for proyecto in proyectos %}
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="cliente-card" onclick="window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
-                    <div class="nombre">{{ proyecto.nombre }}</div>
-                    <div class="comercial">Cliente: {{ proyecto.cliente.razon_social }}</div>
+                    <div class="nombre">{{ proyecto.nombre|default:"Proyecto sin nombre" }}</div>
+                    <div class="comercial">
+                        {% if proyecto.cliente %}
+                            {{ proyecto.cliente.razon_social|default:"Cliente sin nombre" }}
+                        {% else %}
+                            Sin cliente
+                        {% endif %}
+                    </div>
                     <div>
                         <span class="badge bg-secondary">{{ proyecto.get_proceso_display }}</span>
                         <span class="badge bg-info">{{ proyecto.get_facturacion_estado_display }}</span>
@@ -47,13 +53,13 @@
                 {% for proyecto in proyectos %}
                 <tr onclick="window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'" style="cursor:pointer;">
                     <td>{{ proyecto.id }}</td>
-                    <td>{{ proyecto.nombre }}</td>
-                    <td>{{ proyecto.cliente.razon_social }}</td>
+                    <td>{{ proyecto.nombre|default:"" }}</td>
+                    <td>{% if proyecto.cliente %}{{ proyecto.cliente.razon_social|default:"Sin nombre" }}{% else %}-{% endif %}</td>
                     <td>{{ proyecto.get_proceso_display }}</td>
                     <td>{{ proyecto.get_facturacion_estado_display }}</td>
                     <td>{{ proyecto.facturacion_valor }}</td>
-                    <td><a href="{{ proyecto.url }}" target="_blank">{{ proyecto.url|truncatechars:15 }}</a></td>
-                    <td><a href="{{ proyecto.repo_url }}" target="_blank">{{ proyecto.repo_url|truncatechars:15 }}</a></td>
+                    <td>{% if proyecto.url %}<a href="{{ proyecto.url }}" target="_blank">{{ proyecto.url|truncatechars:15 }}</a>{% endif %}</td>
+                    <td>{% if proyecto.repo_url %}<a href="{{ proyecto.repo_url }}" target="_blank">{{ proyecto.repo_url|truncatechars:15 }}</a>{% endif %}</td>
                 </tr>
                 {% empty %}
                 <tr><td colspan="8" class="text-center text-muted">No hay proyectos</td></tr>
