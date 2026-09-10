@@ -274,7 +274,7 @@
     </style>
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <div class="container py-3">
         {% block content %}{% endblock %}
     </div>
