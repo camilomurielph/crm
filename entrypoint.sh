@@ -3,8 +3,13 @@
 mkdir -p /app/data
 chmod 777 /app/data
 
+# Generar migraciones (por si no existen o hay cambios nuevos)
+python manage.py makemigrations core --noinput
+
+# Aplicar migraciones
 python manage.py migrate --noinput
 
+# Crear usuarios si no existen
 python manage.py shell -c "
 from django.contrib.auth import get_user_model
 User = get_user_model()
