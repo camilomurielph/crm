@@ -16,8 +16,8 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <p><strong>Razón Social:</strong> {{ cliente.razon_social|default:"-" }}</p>
-                <p><strong>Nombre Comercial:</strong> {{ cliente.nombre_comercial|default:"-" }}</p>
+                <p><strong>Razón Social/Nombre Comercial:</strong> {{ cliente.razon_social|default:"-" }}</p>
+                <p><strong>Nombre de contacto:</strong> {{ cliente.nombre_comercial|default:"-" }}</p>
                 <p><strong>NIF / VAT:</strong> {{ cliente.nif|default:"-" }}</p>
                 <p><strong>Tamaño Empresa:</strong> {{ cliente.get_tamano_empresa_display|default:"-" }}</p>
                 <p><strong>Industria:</strong> {{ cliente.get_industria_display|default:"-" }}</p>
@@ -38,6 +38,13 @@
                 <p><strong>Herramienta:</strong> {{ cliente.herramienta|default:"-" }}</p>
             </div>
         </div>
+
+        {% if cliente.notas %}
+            <hr>
+            <h5>Notas</h5>
+            <div class="notas-box">{{ cliente.notas|linebreaks }}</div>
+        {% endif %}
+
         <hr>
         <h5>Proyectos</h5>
         <div>
