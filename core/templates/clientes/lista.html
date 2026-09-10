@@ -4,10 +4,10 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Clientes</h2>
     <div>
-        <a href="?vista=tarjetas" class="btn btn-sm btn-outline-secondary {% if vista == 'tarjetas' %}active{% endif %}">
+        <a href="?vista=tarjetas" class="btn btn-sm btn-outline-light {% if vista == 'tarjetas' %}active{% endif %}">
             <i class="fas fa-th"></i>
         </a>
-        <a href="?vista=tabla" class="btn btn-sm btn-outline-secondary {% if vista == 'tabla' %}active{% endif %}">
+        <a href="?vista=tabla" class="btn btn-sm btn-outline-light {% if vista == 'tabla' %}active{% endif %}">
             <i class="fas fa-table"></i>
         </a>
         <a href="{% url 'core:cliente_crear' %}" class="btn btn-sm btn-primary ms-2">
@@ -21,14 +21,14 @@
         {% for cliente in clientes %}
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="cliente-card" onclick="window.location.href='{% url 'core:cliente_detalle' cliente.pk %}'">
-                    <div class="nombre">{{ cliente.razon_social }}</div>
+                    <div class="nombre">{{ cliente.razon_social|default:"Cliente sin nombre" }}</div>
                     <div class="comercial">{{ cliente.nombre_comercial|default:"" }}</div>
                     <div class="proyectos">
                         {% if cliente.proyectos.all %}
                             {% for proyecto in cliente.proyectos.all %}
-                                <span class="proyecto-badge" style="background-color: #{{ proyecto.id|stringformat:'x'|slice:':6' }};" 
+                                <span class="proyecto-badge" style="background-color: #{{ proyecto.id|stringformat:'x'|slice:':6' }};"
                                       onclick="event.stopPropagation(); window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
-                                    {{ proyecto.nombre }}
+                                    {{ proyecto.nombre|default:"Proyecto" }}
                                 </span>
                             {% endfor %}
                         {% else %}
@@ -47,7 +47,7 @@
             <thead>
                 <tr>
                     <th>ID Cliente</th><th>Razón Social</th><th>Nombre Comercial</th>
-                    <th>NIF / VAT</th><th>Tamaño Empresa</th><th>Industria</th>
+                    <th>NIF / VAT</th><th>Tamaño Empresa</th><th>Industria</th><th>Vertical</th>
                     <th>País/Región</th><th>Sitio web</th><th>No. Contacto</th>
                     <th>Email</th><th>Fecha 1er contacto</th><th>Fecha firma contrato</th>
                     <th>Estado de cliente</th><th>Herramienta</th><th>Proyectos</th>
@@ -57,11 +57,12 @@
                 {% for cliente in clientes %}
                 <tr onclick="window.location.href='{% url 'core:cliente_detalle' cliente.pk %}'" style="cursor:pointer;">
                     <td>{{ cliente.id }}</td>
-                    <td>{{ cliente.razon_social }}</td>
+                    <td>{{ cliente.razon_social|default:"" }}</td>
                     <td>{{ cliente.nombre_comercial|default:"" }}</td>
                     <td>{{ cliente.nif|default:"" }}</td>
                     <td>{{ cliente.get_tamano_empresa_display|default:"" }}</td>
                     <td>{{ cliente.get_industria_display|default:"" }}</td>
+                    <td>{{ cliente.vertical|default:"" }}</td>
                     <td>{{ cliente.pais|default:"" }}</td>
                     <td>{% if cliente.sitio_web %}<a href="{{ cliente.sitio_web }}" target="_blank">{{ cliente.sitio_web|truncatechars:20 }}</a>{% endif %}</td>
                     <td>{{ cliente.numero_contacto|default:"" }}</td>
@@ -73,13 +74,13 @@
                     <td>
                         {% if cliente.proyectos.all %}
                             {% for proyecto in cliente.proyectos.all %}
-                                <span class="badge bg-info">{{ proyecto.nombre }}</span>
+                                <span class="badge bg-info">{{ proyecto.nombre|default:"Proyecto" }}</span>
                             {% endfor %}
                         {% endif %}
                     </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="15" class="text-center text-muted">No hay clientes</td></tr>
+                <tr><td colspan="16" class="text-center text-muted">No hay clientes</td></tr>
                 {% endfor %}
             </tbody>
         </table>
