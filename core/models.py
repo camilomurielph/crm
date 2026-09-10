@@ -23,8 +23,8 @@ class Cliente(models.Model):
         ('activo', 'Activo'),
         ('inactivo', 'Inactivo'),
     ]
-    razon_social = models.CharField(max_length=255, blank=True, verbose_name="Razón Social")
-    nombre_comercial = models.CharField(max_length=255, blank=True, verbose_name="Nombre Comercial")
+    razon_social = models.CharField(max_length=255, blank=True, verbose_name="Razón Social/Nombre Comercial")
+    nombre_comercial = models.CharField(max_length=255, blank=True, verbose_name="Nombre de contacto")
     nif = models.CharField(max_length=50, blank=True, verbose_name="NIF / VAT Number")
     tamano_empresa = models.CharField(max_length=20, choices=TAMANO_EMPRESA_CHOICES, blank=True, verbose_name="Tamaño Empresa")
     industria = models.CharField(max_length=50, choices=INDUSTRIA_CHOICES, blank=True, verbose_name="Industria")
@@ -37,6 +37,7 @@ class Cliente(models.Model):
     fecha_firma_contrato = models.DateField(null=True, blank=True, verbose_name="Fecha firma contrato")
     estado_cliente = models.CharField(max_length=20, choices=ESTADO_CLIENTE_CHOICES, blank=True, verbose_name="Estado de cliente")
     herramienta = models.CharField(max_length=100, blank=True, help_text="Herramienta utilizada (opcional)", verbose_name="Herramienta")
+    notas = models.TextField(blank=True, verbose_name="Notas")
 
     def __str__(self):
         return self.razon_social or f"Cliente #{self.pk}"
@@ -54,7 +55,7 @@ class Proyecto(models.Model):
         ('por_pagar', 'Por pagar'),
         ('pagado', 'Pagado'),
     ]
-    cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, related_name='proyectos', null=True, blank=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='proyectos', null=True, blank=True)
     nombre = models.CharField(max_length=255, blank=True, verbose_name="Nombre")
     descripcion = models.TextField(blank=True, verbose_name="Descripción")
     url = models.URLField(blank=True, verbose_name="URL del proyecto")
@@ -63,6 +64,7 @@ class Proyecto(models.Model):
     proceso = models.CharField(max_length=20, choices=PROCESO_CHOICES, default='activo', verbose_name="Proceso")
     facturacion_estado = models.CharField(max_length=20, choices=FACTURACION_CHOICES, default='no_aplica', verbose_name="Facturación")
     facturacion_valor = models.DecimalField(max_digits=12, decimal_places=2, default=0, blank=True, verbose_name="Valor")
+    notas = models.TextField(blank=True, verbose_name="Notas")
 
     def __str__(self):
         return self.nombre or f"Proyecto #{self.pk}"
