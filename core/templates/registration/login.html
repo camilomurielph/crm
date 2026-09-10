@@ -12,6 +12,11 @@
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                 </form>
+                {% if form.errors %}
+                    <div class="alert alert-danger mt-3">
+                        Usuario o contraseña incorrectos.
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
