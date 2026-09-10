@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key-change-in-production')
-DEBUG = True   # <-- Temporal para ver errores
+DEBUG = False   # <-- Temporal para ver errores
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['https://crm.actols.com']
