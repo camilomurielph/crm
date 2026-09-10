@@ -38,6 +38,27 @@ def cliente_crear(request):
     return render(request, 'clientes/crear.html', {'form': form})
 
 
+@login_required
+def cliente_editar(request, pk):
+    cliente = get_object_or_404(Cliente, pk=pk)
+    if request.method == 'POST':
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect('core:cliente_detalle', pk=cliente.pk)
+    else:
+        form = ClienteForm(instance=cliente)
+    return render(request, 'clientes/editar.html', {'form': form, 'cliente': cliente})
+
+
+@login_required
+@require_POST
+def cliente_eliminar(request, pk):
+    cliente = get_object_or_404(Cliente, pk=pk)
+    cliente.delete()
+    return redirect('core:clientes')
+
+
 # ==================== PROYECTOS ====================
 
 @login_required
@@ -74,6 +95,38 @@ def proyecto_crear(request):
     return render(request, 'proyectos/crear.html', {'form': form, 'clientes': clientes})
 
 
+@login_required
+def proyecto_editar(request, pk):
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST, request.FILES, instance=proyecto)
+        cliente_id = request.POST.get('cliente')
+        if form.is_valid():
+            proyecto = form.save(commit=False)
+            if cliente_id:
+                proyecto.cliente_id = cliente_id
+            else:
+                proyecto.cliente = None
+            proyecto.save()
+            return redirect('core:proyecto_detalle', pk=proyecto.pk)
+    else:
+        form = ProyectoForm(instance=proyecto)
+    clientes = Cliente.objects.all()
+    return render(request, 'proyectos/editar.html', {
+        'form': form,
+        'proyecto': proyecto,
+        'clientes': clientes,
+    })
+
+
+@login_required
+@require_POST
+def proyecto_eliminar(request, pk):
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    proyecto.delete()
+    return redirect('core:proyectos')
+
+
 # ==================== TAREAS ====================
 
 @login_required
@@ -86,7 +139,6 @@ def tarea_lista(request, categoria=None):
             total = qs.count()
             completadas = qs.filter(completada=True).count()
             pendientes = total - completadas
-            # Listado de tareas pendientes (para vista rápida)
             pendientes_lista = qs.filter(completada=False).order_by('-creada')[:8]
             data[cat] = {
                 'total': total,
