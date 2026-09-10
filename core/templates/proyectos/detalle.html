@@ -42,6 +42,12 @@
                 <button type="submit" class="btn btn-sm btn-primary">Subir contrato</button>
             </form>
         {% endif %}
+
+        {% if proyecto.notas %}
+            <hr>
+            <h5>Notas</h5>
+            <div class="notas-box">{{ proyecto.notas|linebreaks }}</div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
