@@ -2,6 +2,7 @@ from django.db import models
 
 class Cliente(models.Model):
     TAMANO_EMPRESA_CHOICES = [
+        ('independiente', 'Independiente'),
         ('micro', 'Microempresa'),
         ('pequena', 'Pequeña'),
         ('mediana', 'Mediana'),
@@ -13,6 +14,7 @@ class Cliente(models.Model):
         ('finanzas', 'Finanzas'),
         ('educacion', 'Educación'),
         ('comercio', 'Comercio'),
+        ('servicios', 'Servicios'),
         ('otros', 'Otros'),
     ]
     ESTADO_CLIENTE_CHOICES = [
@@ -37,6 +39,7 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.razon_social or f"Cliente #{self.pk}"
+
 
 class Proyecto(models.Model):
     PROCESO_CHOICES = [
@@ -63,6 +66,7 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre or f"Proyecto #{self.pk}"
 
+
 class Tarea(models.Model):
     CATEGORIA_CHOICES = [
         ('actols', 'Actols'),
@@ -77,6 +81,7 @@ class Tarea(models.Model):
 
     def __str__(self):
         return self.titulo or f"Tarea #{self.pk}"
+
 
 class Enlace(models.Model):
     nombre = models.CharField(max_length=255, blank=True, verbose_name="Nombre")
