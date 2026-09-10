@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 {% block title %}Editar Tarea - Actols CRM{% endblock %}
 {% block content %}
-<h2>Editar Tarea</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="{% url 'core:tarea_detalle' tarea.id %}" class="btn btn-secondary">Cancelar</a>
-</form>
+<div class="form-wrapper">
+    <div class="form-card">
+        <h2 class="form-title"><i class="fas fa-pen"></i> Editar Tarea</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'core:tarea_detalle' tarea.id %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
