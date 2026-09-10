@@ -22,16 +22,18 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="cliente-card" onclick="window.location.href='{% url 'core:cliente_detalle' cliente.pk %}'">
                     <div class="nombre">{{ cliente.razon_social }}</div>
-                    <div class="comercial">{{ cliente.nombre_comercial }}</div>
+                    <div class="comercial">{{ cliente.nombre_comercial|default:"" }}</div>
                     <div class="proyectos">
-                        {% for proyecto in cliente.proyectos.all %}
-                            <span class="proyecto-badge" style="background-color: #{{ proyecto.id|stringformat:'x'|slice:':6' }};" 
-                                  onclick="event.stopPropagation(); window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
-                                {{ proyecto.nombre }}
-                            </span>
-                        {% empty %}
+                        {% if cliente.proyectos.all %}
+                            {% for proyecto in cliente.proyectos.all %}
+                                <span class="proyecto-badge" style="background-color: #{{ proyecto.id|stringformat:'x'|slice:':6' }};" 
+                                      onclick="event.stopPropagation(); window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
+                                    {{ proyecto.nombre }}
+                                </span>
+                            {% endfor %}
+                        {% else %}
                             <span class="text-muted small">Sin proyectos</span>
-                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -56,22 +58,24 @@
                 <tr onclick="window.location.href='{% url 'core:cliente_detalle' cliente.pk %}'" style="cursor:pointer;">
                     <td>{{ cliente.id }}</td>
                     <td>{{ cliente.razon_social }}</td>
-                    <td>{{ cliente.nombre_comercial }}</td>
-                    <td>{{ cliente.nif }}</td>
-                    <td>{{ cliente.get_tamano_empresa_display }}</td>
-                    <td>{{ cliente.get_industria_display }}</td>
-                    <td>{{ cliente.pais }}</td>
-                    <td><a href="{{ cliente.sitio_web }}" target="_blank">{{ cliente.sitio_web|truncatechars:20 }}</a></td>
-                    <td>{{ cliente.numero_contacto }}</td>
-                    <td>{{ cliente.email }}</td>
+                    <td>{{ cliente.nombre_comercial|default:"" }}</td>
+                    <td>{{ cliente.nif|default:"" }}</td>
+                    <td>{{ cliente.get_tamano_empresa_display|default:"" }}</td>
+                    <td>{{ cliente.get_industria_display|default:"" }}</td>
+                    <td>{{ cliente.pais|default:"" }}</td>
+                    <td>{% if cliente.sitio_web %}<a href="{{ cliente.sitio_web }}" target="_blank">{{ cliente.sitio_web|truncatechars:20 }}</a>{% endif %}</td>
+                    <td>{{ cliente.numero_contacto|default:"" }}</td>
+                    <td>{{ cliente.email|default:"" }}</td>
                     <td>{{ cliente.fecha_primer_contacto|default:"-" }}</td>
                     <td>{{ cliente.fecha_firma_contrato|default:"-" }}</td>
-                    <td>{{ cliente.get_estado_cliente_display }}</td>
-                    <td>{{ cliente.herramienta }}</td>
+                    <td>{{ cliente.get_estado_cliente_display|default:"" }}</td>
+                    <td>{{ cliente.herramienta|default:"" }}</td>
                     <td>
-                        {% for proyecto in cliente.proyectos.all %}
-                            <span class="badge bg-info">{{ proyecto.nombre }}</span>
-                        {% endfor %}
+                        {% if cliente.proyectos.all %}
+                            {% for proyecto in cliente.proyectos.all %}
+                                <span class="badge bg-info">{{ proyecto.nombre }}</span>
+                            {% endfor %}
+                        {% endif %}
                     </td>
                 </tr>
                 {% empty %}
