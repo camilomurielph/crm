@@ -49,10 +49,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'actols_crm.wsgi.application'
 
+# Base de datos SQLite en /app/data (persistente)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.environ.get('DB_PATH', BASE_DIR / '/data/db.sqlite3'),
+        'NAME': '/app/data/db.sqlite3',
         'OPTIONS': {'timeout': 20},
     }
 }
@@ -76,7 +77,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-LOGIN_URL = '/accounts/login/'
+# LOGIN y LOGOUT
+LOGIN_URL = '/accounts/login/'   # <-- Corregido
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
