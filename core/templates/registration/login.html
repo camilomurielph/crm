@@ -2,23 +2,23 @@
 {% block title %}Iniciar Sesión - Actols CRM{% endblock %}
 {% block menu %}{% endblock %}
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6 col-lg-4">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title text-center mb-4">Actols CRM</h3>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-                </form>
-                {% if form.errors %}
-                    <div class="alert alert-danger mt-3">
-                        Usuario o contraseña incorrectos.
-                    </div>
-                {% endif %}
+<div class="login-wrapper">
+    <div class="login-card">
+        <h3>Actols CRM</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
             </div>
-        </div>
+            <button type="submit" class="btn btn-primary w-100 mt-3" style="padding: 0.7rem; border-radius: 12px;">
+                Iniciar Sesión
+            </button>
+        </form>
+        {% if form.errors %}
+            <div class="alert alert-danger mt-3" style="background-color: #3a1a1a; border-color: #5a2020; color: #ffbdbd;">
+                Usuario o contraseña incorrectos.
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
