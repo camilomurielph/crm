@@ -19,8 +19,8 @@
 {% if vista == 'tarjetas' %}
     <div class="row">
         {% for cliente in clientes %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="cliente-card" onclick="window.location.href='{% url 'core:cliente_detalle' cliente.pk %}'">
+            <div class="col-12 col-md-6 col-lg-4 d-flex">
+                <div class="cliente-card w-100" onclick="window.location.href='{% url 'core:cliente_detalle' cliente.pk %}'">
                     <div class="nombre">{{ cliente.razon_social|default:"Cliente sin nombre" }}</div>
                     <div class="comercial">{{ cliente.nombre_comercial|default:"" }}</div>
                     <div class="proyectos">
