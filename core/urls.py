@@ -10,13 +10,17 @@ urlpatterns = [
     path('clientes/', views.cliente_lista, name='clientes'),
     path('clientes/nuevo/', views.cliente_crear, name='cliente_crear'),
     path('clientes/<int:pk>/', views.cliente_detalle, name='cliente_detalle'),
+    path('clientes/<int:pk>/editar/', views.cliente_editar, name='cliente_editar'),
+    path('clientes/<int:pk>/eliminar/', views.cliente_eliminar, name='cliente_eliminar'),
 
     # PROYECTOS
     path('proyectos/', views.proyecto_lista, name='proyectos'),
     path('proyectos/nuevo/', views.proyecto_crear, name='proyecto_crear'),
     path('proyectos/<int:pk>/', views.proyecto_detalle, name='proyecto_detalle'),
+    path('proyectos/<int:pk>/editar/', views.proyecto_editar, name='proyecto_editar'),
+    path('proyectos/<int:pk>/eliminar/', views.proyecto_eliminar, name='proyecto_eliminar'),
 
-    # TAREAS — Rutas específicas primero, las genéricas después
+    # TAREAS — específicas primero, genéricas después
     path('tareas/', views.tarea_lista, name='tareas'),
     path('tareas/crear/', views.tarea_crear, name='tarea_crear'),
     path('tareas/<int:pk>/', views.tarea_detalle, name='tarea_detalle'),
