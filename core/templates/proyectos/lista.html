@@ -17,7 +17,7 @@
 </div>
 
 {% if vista == 'tarjetas' %}
-    <div class="row">
+    <div class="row g-3">
         {% for proyecto in proyectos %}
             <div class="col-12 col-md-6 col-lg-4 d-flex">
                 <div class="cliente-card w-100" onclick="window.location.href='{% url 'core:proyecto_detalle' proyecto.pk %}'">
