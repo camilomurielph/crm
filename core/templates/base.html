@@ -8,128 +8,268 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <style>
-        body {
+        /* ===== BASE ===== */
+        html, body {
             background-color: #121212;
-            color: #e0e0e0;
-            padding-bottom: 80px;
+            color: #ffffff;
+            padding-bottom: 90px;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
+        a { color: #6ea8fe; text-decoration: none; }
+        a:hover { color: #a8c7ff; text-decoration: underline; }
+        h1, h2, h3, h4, h5, h6 { color: #ffffff; font-weight: 600; }
+        p, span, div, td, th, label, li { color: #ffffff; }
+        .text-muted { color: #adb5bd !important; }
+
+        /* ===== CARDS ===== */
         .card {
             background-color: #1e1e1e;
-            border: 1px solid #333;
+            border: 1px solid #2c2c2c;
+            border-radius: 14px;
+            color: #fff;
         }
+        .card-body { color: #fff; }
+
+        /* ===== BOTONES ===== */
         .btn-outline-light {
             border-color: #555;
-            color: #ccc;
+            color: #ddd;
         }
         .btn-outline-light:hover {
             background-color: #333;
             color: #fff;
         }
+
+        /* ===== MENÚ INFERIOR ===== */
         .navbar-bottom {
-            background-color: #1e1e1e;
-            border-top: 1px solid #333;
+            background-color: #1a1a1a;
+            border-top: 1px solid #2c2c2c;
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             z-index: 1030;
             padding: 0.5rem 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
         }
         .navbar-bottom .nav-link {
-            color: #aaa;
+            color: #888;
             text-align: center;
             padding: 0.25rem 0;
             font-size: 0.8rem;
+            transition: color 0.2s;
+            text-decoration: none;
         }
         .navbar-bottom .nav-link i {
             display: block;
             font-size: 1.5rem;
             margin-bottom: 0.2rem;
         }
-        .navbar-bottom .nav-link.active {
-            color: #fff;
-        }
-        .navbar-bottom .nav-link.active i {
-            color: #0d6efd;
-        }
+        .navbar-bottom .nav-link.active { color: #fff; }
+        .navbar-bottom .nav-link.active i { color: #0d6efd; }
+        .navbar-bottom .nav-link:hover { color: #ccc; text-decoration: none; }
+
+        /* ===== TABLAS ===== */
+        .table { color: #fff !important; }
         .table-dark {
             --bs-table-bg: #1e1e1e;
-            --bs-table-striped-bg: #2a2a2a;
-            --bs-table-hover-bg: #333;
+            --bs-table-striped-bg: #262626;
+            --bs-table-hover-bg: #303030;
+            --bs-table-color: #ffffff;
+            --bs-table-striped-color: #ffffff;
+            --bs-table-hover-color: #ffffff;
+            --bs-table-border-color: #333;
         }
-        .badge-project {
+        .table th { color: #fff; font-weight: 600; }
+        .table td { color: #e6e6e6; }
+
+        /* ===== BADGES DE PROYECTOS ===== */
+        .badge-project, .proyecto-badge {
             display: inline-block;
-            padding: 0.3rem 0.6rem;
+            padding: 0.3rem 0.7rem;
             margin: 0.2rem;
             border-radius: 20px;
             background-color: #2d6a9f;
-            color: white;
+            color: #fff !important;
             font-size: 0.75rem;
             cursor: pointer;
+            text-decoration: none;
         }
-        .badge-project:hover {
-            opacity: 0.8;
+        .badge-project:hover, .proyecto-badge:hover {
+            opacity: 0.85;
+            color: #fff !important;
+            text-decoration: none;
         }
+
+        /* ===== TARJETAS DE TAREAS ===== */
         .task-item {
-            background-color: #2a2a2a;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            margin-bottom: 0.5rem;
+            background-color: #262626;
+            border: 1px solid #2f2f2f;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.6rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            color: #fff;
+            transition: background-color 0.15s;
         }
+        .task-item:hover { background-color: #2f2f2f; }
         .task-item .task-title {
             flex: 1;
-            margin-left: 0.5rem;
+            margin-left: 0.6rem;
             cursor: pointer;
+            color: #fff;
         }
         .task-item .task-title.completed {
             text-decoration: line-through;
-            color: #6c757d;
+            color: #808080;
         }
         .task-item .task-actions a {
-            margin-left: 0.5rem;
+            margin-left: 0.4rem;
             color: #aaa;
         }
-        .task-item .task-actions a:hover {
-            color: #fff;
-        }
-        @media (max-width: 576px) {
-            .navbar-bottom .nav-link {
-                font-size: 0.6rem;
-            }
-            .navbar-bottom .nav-link i {
-                font-size: 1.2rem;
-            }
-        }
+        .task-item .task-actions a:hover { color: #fff; }
+
+        /* ===== TARJETAS DE CLIENTE/PROYECTO ===== */
         .cliente-card {
             background-color: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 1rem;
+            border: 1px solid #2c2c2c;
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
             margin-bottom: 1rem;
-            transition: transform 0.2s;
+            transition: transform 0.15s, border-color 0.15s;
             cursor: pointer;
+            color: #fff;
         }
         .cliente-card:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            border-color: #3a3a3a;
         }
         .cliente-card .nombre {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: bold;
+            color: #fff;
         }
         .cliente-card .comercial {
-            color: #aaa;
+            color: #adb5bd;
+            margin-bottom: 0.5rem;
         }
-        .proyecto-badge {
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            margin: 0.2rem;
-            font-size: 0.7rem;
+
+        /* ===== FORMULARIOS ===== */
+        .form-wrapper {
+            max-width: 700px;
+            margin: 1.5rem auto 3rem auto;
+            padding: 0 1rem;
+        }
+        .form-card {
+            background: linear-gradient(180deg, #1f1f1f 0%, #1a1a1a 100%);
+            border: 1px solid #2c2c2c;
+            border-radius: 18px;
+            padding: 2rem 1.75rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .form-title {
             color: #fff;
-            background-color: #2d6a9f;
+            text-align: center;
+            margin-bottom: 1.75rem;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        .form-fields p {
+            margin-bottom: 1.1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-fields label {
+            color: #e6e6e6;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+        .form-fields input[type="text"],
+        .form-fields input[type="email"],
+        .form-fields input[type="url"],
+        .form-fields input[type="number"],
+        .form-fields input[type="date"],
+        .form-fields input[type="password"],
+        .form-fields input[type="file"],
+        .form-fields textarea,
+        .form-fields select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #262626;
+            border: 1px solid #383838;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+        .form-fields input::placeholder,
+        .form-fields textarea::placeholder {
+            color: #666;
+        }
+        .form-fields input:focus,
+        .form-fields textarea:focus,
+        .form-fields select:focus {
+            outline: none;
+            border-color: #0d6efd;
+            background-color: #2a2a2a;
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(13,110,253,0.25);
+        }
+        .form-fields select option {
+            background-color: #262626;
+            color: #fff;
+        }
+        .form-fields textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1.75rem;
+            flex-wrap: wrap;
+        }
+        .form-actions .btn {
+            padding: 0.6rem 1.6rem;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        /* ===== LOGIN ===== */
+        .login-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 1rem;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(180deg, #1f1f1f 0%, #1a1a1a 100%);
+            border: 1px solid #2c2c2c;
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        .login-card h3 {
+            text-align: center;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 576px) {
+            .navbar-bottom .nav-link { font-size: 0.65rem; }
+            .navbar-bottom .nav-link i { font-size: 1.3rem; }
+            .form-card { padding: 1.5rem 1.25rem; border-radius: 16px; }
+            .form-title { font-size: 1.2rem; }
         }
     </style>
     {% block extra_head %}{% endblock %}
