@@ -82,13 +82,20 @@ def tarea_lista(request, categoria=None):
         categorias = ['actols', 'andres', 'camilo']
         data = {}
         for cat in categorias:
-            total = Tarea.objects.filter(categoria=cat).count()
-            completadas = Tarea.objects.filter(categoria=cat, completada=True).count()
+            qs = Tarea.objects.filter(categoria=cat)
+            total = qs.count()
+            completadas = qs.filter(completada=True).count()
             pendientes = total - completadas
-            data[cat] = {'total': total, 'pendientes': pendientes, 'completadas': completadas}
+            # Listado de tareas pendientes (para vista rápida)
+            pendientes_lista = qs.filter(completada=False).order_by('-creada')[:8]
+            data[cat] = {
+                'total': total,
+                'pendientes': pendientes,
+                'completadas': completadas,
+                'pendientes_lista': pendientes_lista,
+            }
         return render(request, 'tareas/lista.html', {'categorias': data})
     else:
-        # Validar que la categoría sea válida
         categorias_validas = ['actols', 'andres', 'camilo']
         if categoria not in categorias_validas:
             return redirect('core:tareas')
@@ -108,7 +115,6 @@ def tarea_lista(request, categoria=None):
 def tarea_detalle(request, pk):
     tarea = get_object_or_404(Tarea, pk=pk)
     if request.method == 'POST':
-        # Actualización rápida desde el detalle
         tarea.descripcion = request.POST.get('descripcion', tarea.descripcion)
         tarea.save()
         return redirect('core:tarea_detalle', pk=tarea.pk)
