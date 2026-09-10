@@ -1,19 +1,34 @@
 {% extends 'base.html' %}
 {% block title %}Detalle Proyecto - Actols CRM{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between mb-3">
-    <h2>{{ proyecto.nombre }}</h2>
-    <a href="{% url 'core:proyectos' %}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Volver</a>
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h2>{{ proyecto.nombre|default:"Proyecto sin nombre" }}</h2>
+    <div>
+        <a href="{% url 'core:proyecto_editar' proyecto.pk %}" class="btn btn-primary btn-sm">
+            <i class="fas fa-pen"></i> Editar
+        </a>
+        <a href="{% url 'core:proyectos' %}" class="btn btn-secondary btn-sm">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </div>
 </div>
 <div class="card">
     <div class="card-body">
-        <p><strong>Cliente:</strong> <a href="{% url 'core:cliente_detalle' proyecto.cliente.pk %}">{{ proyecto.cliente.razon_social }}</a></p>
-        <p><strong>Descripción:</strong> {{ proyecto.descripcion|linebreaks }}</p>
-        <p><strong>URL:</strong> <a href="{{ proyecto.url }}" target="_blank">{{ proyecto.url }}</a></p>
-        <p><strong>Repo:</strong> <a href="{{ proyecto.repo_url }}" target="_blank">{{ proyecto.repo_url }}</a></p>
-        <p><strong>Proceso:</strong> {{ proyecto.get_proceso_display }}</p>
-        <p><strong>Facturación:</strong> {{ proyecto.get_facturacion_estado_display }} - Valor: {{ proyecto.facturacion_valor }}</p>
-        <p><strong>Contrato:</strong> 
+        <p><strong>Cliente:</strong>
+            {% if proyecto.cliente %}
+                <a href="{% url 'core:cliente_detalle' proyecto.cliente.pk %}">{{ proyecto.cliente.razon_social|default:"Cliente sin nombre" }}</a>
+            {% else %}-{% endif %}
+        </p>
+        <p><strong>Descripción:</strong> {{ proyecto.descripcion|linebreaks|default:"-" }}</p>
+        <p><strong>URL:</strong>
+            {% if proyecto.url %}<a href="{{ proyecto.url }}" target="_blank">{{ proyecto.url }}</a>{% else %}-{% endif %}
+        </p>
+        <p><strong>Repo:</strong>
+            {% if proyecto.repo_url %}<a href="{{ proyecto.repo_url }}" target="_blank">{{ proyecto.repo_url }}</a>{% else %}-{% endif %}
+        </p>
+        <p><strong>Proceso:</strong> {{ proyecto.get_proceso_display|default:"-" }}</p>
+        <p><strong>Facturación:</strong> {{ proyecto.get_facturacion_estado_display|default:"-" }} - Valor: {{ proyecto.facturacion_valor }}</p>
+        <p><strong>Contrato:</strong>
             {% if proyecto.contrato %}
                 <a href="{{ proyecto.contrato.url }}" target="_blank">Ver PDF</a>
             {% else %}
